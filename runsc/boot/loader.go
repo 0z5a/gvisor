@@ -1091,12 +1091,7 @@ func (l *Loader) ConfigureNetwork(s inet.Stack) error {
 	if !ok {
 		return nil
 	}
-	if eps.Stack.IPTables() == nil {
-		eps.Stack.SetIPTables(netfilter.DefaultLinuxTables(eps.Stack.Clock(), eps.Stack.InsecureRNG()))
-	}
-	if nftables.IsNFTablesEnabled() && eps.Stack.NFTables() == nil {
-		eps.Stack.SetNFTables(nftables.NewNFTables(eps.Stack, eps.Stack.Clock(), eps.Stack.SecureRNG()))
-	}
+	eps.InitDefaultTables()
 	n := &Network{
 		Stack:  eps.Stack,
 		Kernel: l.k,
